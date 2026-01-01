@@ -72,33 +72,15 @@ export function Header({ cartCount = 0 }: HeaderProps) {
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 bg-accent/20 rounded-full blur-sm" />
               <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-1 h-4 bg-gradient-to-b from-accent to-accent/50 z-0" />
 
-              {/* Main Coin Housing */}
-              <div className="relative w-24 h-24 flex items-center justify-center rounded-full bg-gradient-to-br from-accent/20 via-accent/5 to-transparent border-[3px] border-accent/40 shadow-[0_0_30px_rgba(245,158,11,0.3),inset_0_0_20px_rgba(245,158,11,0.1)] backdrop-blur-md animate-float z-10 transition-transform duration-500 group-hover:scale-110">
-                {/* Inner Ring */}
-                <div className="absolute inset-2 rounded-full border border-accent/30 shadow-[inset_0_0_10px_rgba(245,158,11,0.2)]" />
-
-                {/* The Rotating Coin Container */}
-                <div className="relative w-16 h-16 animate-coin-flip preserve-3d">
-                  {/* Front Face */}
-                  <div className="absolute inset-0 backface-hidden">
-                    <img
-                      src="/skoins-logo.png"
-                      alt="Skoins Logo"
-                      className="w-full h-full object-contain drop-shadow-md"
-                    />
-                  </div>
-
-                  {/* Back Face (Duplicate for 3D effect) */}
-                  <div className="absolute inset-0 backface-hidden rotate-y-180">
-                    <img
-                      src="/skoins-logo.png"
-                      alt="Skoins Logo"
-                      className="w-full h-full object-contain drop-shadow-md"
-                    />
-                  </div>
-
-                  {/* Edge/Thickness Simulation */}
-                  <div className="absolute inset-0 rounded-full border-4 border-[#b45309] opacity-50" style={{ transform: 'translateZ(-1px)' }}></div>
+              {/* Main Coin Housing - Simplified (No Borders) */}
+              <div className="relative w-24 h-24 flex items-center justify-center animate-float z-10 transition-transform duration-500 group-hover:scale-110">
+                {/* The Rotating Coin Container - Matching Hero Section */}
+                <div className="relative w-16 h-16 animate-coin rounded-full flex items-center justify-center filter drop-shadow-[0_0_15px_rgba(245,158,11,0.5)]">
+                  <img
+                    src="/skoins-logo.png"
+                    alt="Skoins Logo"
+                    className="w-full h-full object-contain"
+                  />
                 </div>
               </div>
             </div>
