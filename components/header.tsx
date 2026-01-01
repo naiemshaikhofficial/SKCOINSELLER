@@ -3,8 +3,9 @@
 import Link from "next/link"
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { ShoppingCart, Menu, X, LogOut } from "lucide-react"
+import { ShoppingCart, Menu, X, LogOut, LayoutDashboard } from "lucide-react"
 import { createClient } from "@/lib/supabase-client"
+import { isAdmin } from "@/lib/admin-check"
 import { useRouter, usePathname } from "next/navigation"
 
 interface HeaderProps {
@@ -14,6 +15,7 @@ interface HeaderProps {
 export function Header({ cartCount = 0 }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [user, setUser] = useState<any>(null)
+  const [isUserAdmin, setIsUserAdmin] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
   const pathname = usePathname()
@@ -26,6 +28,12 @@ export function Header({ cartCount = 0 }: HeaderProps) {
           data: { user: authUser },
         } = await supabase.auth.getUser()
         setUser(authUser)
+
+        // Check if user is admin
+        if (authUser) {
+          const adminStatus = await isAdmin()
+          setIsUserAdmin(adminStatus)
+        }
       } catch (error) {
         console.error("Error fetching user:", error)
       } finally {
@@ -79,6 +87,12 @@ export function Header({ cartCount = 0 }: HeaderProps) {
             {user && (
               <Link href="/orders" className="text-primary-foreground hover:text-primary-foreground/80 transition">
                 Orders
+              </Link>
+            )}
+            {isUserAdmin && (
+              <Link href="/admin/dashboard" className="text-primary-foreground hover:text-primary-foreground/80 transition flex items-center gap-1">
+                <LayoutDashboard className="w-4 h-4" />
+                Admin Dashboard
               </Link>
             )}
           </nav>
@@ -168,6 +182,14 @@ export function Header({ cartCount = 0 }: HeaderProps) {
               <Link href="/orders">
                 <Button variant="ghost" className="w-full justify-start text-primary-foreground">
                   Orders
+                </Button>
+              </Link>
+            )}
+            {isUserAdmin && (
+              <Link href="/admin/dashboard">
+                <Button variant="ghost" className="w-full justify-start text-primary-foreground flex items-center gap-2">
+                  <LayoutDashboard className="w-4 h-4" />
+                  Admin Dashboard
                 </Button>
               </Link>
             )}

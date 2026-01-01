@@ -5,31 +5,31 @@ import { Header } from "@/components/header"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { createClient } from "@/lib/supabase-client"
+import { isAdmin } from "@/lib/admin-check"
 import { Plus, Edit2, Trash2, Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
+import Image from "next/image"
 
 export default function AdminCoinsPage() {
   const [coins, setCoins] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
-  const [user, setUser] = useState<any>(null)
+  const [checkingAuth, setCheckingAuth] = useState(true)
   const router = useRouter()
   const supabase = createClient()
 
   useEffect(() => {
     async function checkAuth() {
-      const {
-        data: { user: authUser },
-      } = await supabase.auth.getUser()
-      if (!authUser) {
+      const admin = await isAdmin()
+      if (!admin) {
         router.push("/auth/login")
         return
       }
-      setUser(authUser)
+      setCheckingAuth(false)
       fetchCoins()
     }
 
     checkAuth()
-  }, [])
+  }, [router])
 
   async function fetchCoins() {
     try {
@@ -57,6 +57,14 @@ export default function AdminCoinsPage() {
     }
   }
 
+  if (checkingAuth) {
+    return (
+      <main className="min-h-screen bg-gradient-to-b from-background to-secondary/10 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </main>
+    )
+  }
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-background to-secondary/10">
       <Header />
@@ -82,6 +90,7 @@ export default function AdminCoinsPage() {
             <table className="w-full">
               <thead className="border-b border-border">
                 <tr>
+                  <th className="text-left py-4 px-4 font-semibold">Image</th>
                   <th className="text-left py-4 px-4 font-semibold">Name</th>
                   <th className="text-left py-4 px-4 font-semibold">Price</th>
                   <th className="text-left py-4 px-4 font-semibold">Year</th>
@@ -93,6 +102,20 @@ export default function AdminCoinsPage() {
               <tbody>
                 {coins.map((coin) => (
                   <tr key={coin.id} className="border-b border-border hover:bg-secondary/5 transition">
+                    <td className="py-4 px-4">
+                      {coin.image_url ? (
+                        <div className="relative w-12 h-12">
+                          <Image
+                            src={coin.image_url}
+                            alt={coin.name}
+                            fill
+                            className="object-cover rounded"
+                          />
+                        </div>
+                      ) : (
+                        <div className="w-12 h-12 bg-secondary/20 rounded" />
+                      )}
+                    </td>
                     <td className="py-4 px-4">{coin.name}</td>
                     <td className="py-4 px-4">₹{coin.price}</td>
                     <td className="py-4 px-4">{coin.year}</td>

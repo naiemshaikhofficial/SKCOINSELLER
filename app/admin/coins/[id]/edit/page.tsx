@@ -8,7 +8,9 @@ import { Header } from "@/components/header"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import { ImageUploader } from "@/components/image-uploader"
 import { createClient } from "@/lib/supabase-client"
+import { isAdmin } from "@/lib/admin-check"
 import { ArrowLeft, Loader2 } from "lucide-react"
 import Link from "next/link"
 
@@ -18,6 +20,7 @@ export default function EditCoinPage() {
   const [coin, setCoin] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [checkingAuth, setCheckingAuth] = useState(true)
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -33,7 +36,14 @@ export default function EditCoinPage() {
   const supabase = createClient()
 
   useEffect(() => {
-    async function fetchCoin() {
+    async function checkAuthAndFetchCoin() {
+      const admin = await isAdmin()
+      if (!admin) {
+        router.push('/auth/login')
+        return
+      }
+      setCheckingAuth(false)
+
       try {
         const { data, error } = await supabase.from("coins").select("*").eq("id", params.id).single()
 
@@ -47,12 +57,16 @@ export default function EditCoinPage() {
       }
     }
 
-    fetchCoin()
-  }, [params.id])
+    checkAuthAndFetchCoin()
+  }, [params.id, router])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleImageUpload = (url: string) => {
+    setFormData((prev) => ({ ...prev, image_url: url }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -81,7 +95,7 @@ export default function EditCoinPage() {
     }
   }
 
-  if (loading) {
+  if (checkingAuth || loading) {
     return (
       <main className="min-h-screen bg-gradient-to-b from-background to-secondary/10">
         <Header />
@@ -108,6 +122,15 @@ export default function EditCoinPage() {
           <h1 className="text-2xl font-bold text-primary mb-6">Edit Coin</h1>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Coin Image</label>
+              <ImageUploader
+                onUploadComplete={handleImageUpload}
+                currentImageUrl={formData.image_url}
+                path="coins"
+              />
+            </div>
+
             <div className="grid md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label className="text-sm font-medium">Coin Name</label>
@@ -190,16 +213,6 @@ export default function EditCoinPage() {
                 placeholder="Detailed description..."
                 className="w-full px-4 py-2 rounded-lg border border-border bg-card text-foreground resize-none"
                 rows={4}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Image URL</label>
-              <Input
-                name="image_url"
-                value={formData.image_url}
-                onChange={handleChange}
-                placeholder="https://example.com/coin.jpg"
               />
             </div>
 

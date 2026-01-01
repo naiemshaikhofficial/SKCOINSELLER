@@ -5,7 +5,8 @@ import { Header } from "@/components/header"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { createClient } from "@/lib/supabase-client"
-import { Loader2, Edit2 } from "lucide-react"
+import { isAdmin } from "@/lib/admin-check"
+import { Loader2, Eye } from "lucide-react"
 import { useRouter } from "next/navigation"
 
 interface Order {
@@ -15,6 +16,10 @@ interface Order {
   payment_status: string
   order_status: string
   created_at: string
+  shipping_address: {
+    phone: string
+    full_name: string
+  }
   shipment_tracking: Array<{
     tracking_number: string
     current_status: string
@@ -24,26 +29,24 @@ interface Order {
 export default function AdminOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([])
   const [loading, setLoading] = useState(true)
-  const [user, setUser] = useState<any>(null)
+  const [checkingAuth, setCheckingAuth] = useState(true)
   const [filter, setFilter] = useState("all")
   const router = useRouter()
   const supabase = createClient()
 
   useEffect(() => {
     async function checkAuth() {
-      const {
-        data: { user: authUser },
-      } = await supabase.auth.getUser()
-      if (!authUser) {
+      const admin = await isAdmin()
+      if (!admin) {
         router.push("/auth/login")
         return
       }
-      setUser(authUser)
+      setCheckingAuth(false)
       fetchOrders()
     }
 
     checkAuth()
-  }, [filter])
+  }, [filter, router])
 
   async function fetchOrders() {
     try {
@@ -57,6 +60,7 @@ export default function AdminOrdersPage() {
         payment_status,
         order_status,
         created_at,
+        shipping_address:addresses(phone, full_name),
         shipment_tracking(
           tracking_number,
           current_status
@@ -106,6 +110,14 @@ export default function AdminOrdersPage() {
     }
   }
 
+  if (checkingAuth) {
+    return (
+      <main className="min-h-screen bg-gradient-to-b from-background to-secondary/10 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </main>
+    )
+  }
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-background to-secondary/10">
       <Header />
@@ -137,6 +149,8 @@ export default function AdminOrdersPage() {
               <thead className="border-b border-border">
                 <tr>
                   <th className="text-left py-4 px-4 font-semibold">Order ID</th>
+                  <th className="text-left py-4 px-4 font-semibold">Customer</th>
+                  <th className="text-left py-4 px-4 font-semibold">Phone</th>
                   <th className="text-left py-4 px-4 font-semibold">Amount</th>
                   <th className="text-left py-4 px-4 font-semibold">Status</th>
                   <th className="text-left py-4 px-4 font-semibold">Payment</th>
@@ -148,6 +162,8 @@ export default function AdminOrdersPage() {
                 {orders.map((order) => (
                   <tr key={order.id} className="border-b border-border hover:bg-secondary/5 transition">
                     <td className="py-4 px-4 font-mono text-sm">{order.order_number}</td>
+                    <td className="py-4 px-4">{order.shipping_address?.full_name || 'N/A'}</td>
+                    <td className="py-4 px-4">{order.shipping_address?.phone || 'N/A'}</td>
                     <td className="py-4 px-4">₹{order.total_amount.toFixed(2)}</td>
                     <td className="py-4 px-4">
                       <select
@@ -172,8 +188,13 @@ export default function AdminOrdersPage() {
                       {order.shipment_tracking?.[0]?.tracking_number || "N/A"}
                     </td>
                     <td className="py-4 px-4 flex gap-2 justify-end">
-                      <Button size="sm" variant="outline" className="flex items-center gap-1 bg-transparent">
-                        <Edit2 className="w-4 h-4" />
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="flex items-center gap-1 bg-transparent"
+                        onClick={() => router.push(`/admin/orders/${order.id}`)}
+                      >
+                        <Eye className="w-4 h-4" />
                         Details
                       </Button>
                     </td>
