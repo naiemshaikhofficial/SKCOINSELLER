@@ -62,7 +62,7 @@ export function Header({ cartCount = 0 }: HeaderProps) {
   const isAuthPage = pathname?.includes("/auth")
 
   return (
-    <header className="sticky top-0 z-50 bg-gradient-to-r from-primary via-primary to-accent/80 border-b border-border/50 shadow-lg backdrop-blur-sm">
+    <header className="sticky top-0 z-50 bg-primary border-b border-border/50 shadow-lg backdrop-blur-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo container with "held" effect */}
@@ -96,8 +96,11 @@ export function Header({ cartCount = 0 }: HeaderProps) {
             <Link href="/" className="text-primary-foreground hover:text-primary-foreground/80 transition">
               Home
             </Link>
-            <Link href="/shop" className="text-primary-foreground hover:text-primary-foreground/80 transition">
+            <Link href="/shop" className="text-primary-foreground hover:text-accent transition">
               Shop
+            </Link>
+            <Link href="/auctions" className="text-primary-foreground hover:text-accent transition">
+              Auctions
             </Link>
             {user && (
               <Link href="/orders" className="text-primary-foreground hover:text-primary-foreground/80 transition">
@@ -152,6 +155,12 @@ export function Header({ cartCount = 0 }: HeaderProps) {
                         </Button>
                       </Link>
                     )}
+                    <Link href="/account/wallet">
+                      <Button size="sm" variant="outline" className="text-accent border-accent hover:bg-accent hover:text-accent-foreground hidden sm:flex items-center gap-1">
+                        ₹
+                        <span className="font-bold">Wallet</span>
+                      </Button>
+                    </Link>
                     <Button size="sm" variant="secondary" onClick={handleLogout} className="flex items-center gap-2">
                       <LogOut className="w-4 h-4" />
                       <span className="hidden sm:inline">Logout</span>

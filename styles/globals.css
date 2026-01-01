@@ -5,54 +5,38 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Light Mode - Vibrant Skoins Theme */
+  /* Colors inspired by reference image */
   --background: oklch(0.99 0 0);
-  /* Crisp white */
-  --foreground: oklch(0.2 0.02 264);
-  /* Deep indigo-black for strong contrast */
+  /* Pure white background */
+  --foreground: oklch(0.15 0.02 264);
+  /* Near black text */
   --card: oklch(1 0 0);
-  /* Pure white cards */
-  --card-foreground: oklch(0.2 0.02 264);
+  --card-foreground: oklch(0.15 0.02 264);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.2 0.02 264);
-  --primary: oklch(0.55 0.22 264);
-  /* Vibrant indigo #6366f1 */
+  --popover-foreground: oklch(0.15 0.02 264);
+
+  --primary: oklch(0.15 0.02 264);
+  /* Dark header/primary #111111 */
   --primary-foreground: oklch(0.99 0 0);
-  /* White text on primary */
+
   --secondary: oklch(0.95 0.01 264);
-  /* Light indigo tint */
   --secondary-foreground: oklch(0.2 0.02 264);
+
   --muted: oklch(0.96 0.005 264);
   --muted-foreground: oklch(0.45 0.02 264);
-  /* Higher contrast muted text */
+
   --accent: oklch(0.72 0.18 75);
-  /* Vibrant gold/amber #f59e0b */
+  /* Skoins Gold #f59e0b */
   --accent-foreground: oklch(0.15 0.02 75);
-  /* Dark text on accent */
+
   --destructive: oklch(0.55 0.22 25);
   --destructive-foreground: oklch(0.99 0 0);
+
   --border: oklch(0.88 0.01 264);
   --input: oklch(0.88 0.01 264);
-  --ring: oklch(0.55 0.22 264);
-  --chart-1: oklch(0.55 0.22 264);
-  /* Indigo */
-  --chart-2: oklch(0.72 0.18 75);
-  /* Gold */
-  --chart-3: oklch(0.65 0.2 340);
-  /* Purple */
-  --chart-4: oklch(0.6 0.18 180);
-  /* Cyan */
-  --chart-5: oklch(0.7 0.16 145);
-  /* Emerald */
+  --ring: oklch(0.15 0.02 264);
+
   --radius: 0.625rem;
-  --sidebar: oklch(0.99 0 0);
-  --sidebar-foreground: oklch(0.2 0.02 264);
-  --sidebar-primary: oklch(0.55 0.22 264);
-  --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.95 0.01 264);
-  --sidebar-accent-foreground: oklch(0.2 0.02 264);
-  --sidebar-border: oklch(0.88 0.01 264);
-  --sidebar-ring: oklch(0.55 0.22 264);
 }
 
 .dark {
@@ -169,3 +153,4 @@
     animation: coin-flip 3s linear infinite;
     transform-style: preserve-3d;
   }
+}

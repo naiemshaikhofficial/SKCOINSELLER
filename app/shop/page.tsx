@@ -29,6 +29,9 @@ export default function ShopPage() {
           query = query.eq("rarity_level", rarityFilter)
         }
 
+        // Automatic sorting by name
+        query = query.order("name", { ascending: true })
+
         const { data, error } = await query
 
         if (error) throw error

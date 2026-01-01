@@ -3,7 +3,7 @@ import { Mail, Phone, Facebook, Twitter, Instagram, Linkedin } from "lucide-reac
 
 export function Footer() {
     return (
-        <footer className="bg-secondary/50 border-t border-border mt-auto">
+        <footer className="bg-accent border-t border-accent-foreground/10 mt-auto text-accent-foreground">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
                     {/* Brand Section */}
@@ -13,12 +13,12 @@ export function Footer() {
                                 <img
                                     src="/skoins-logo.png"
                                     alt="Skoins Logo"
-                                    className="w-full h-full object-contain drop-shadow-lg"
+                                    className="w-full h-full object-contain brightness-0 invert"
                                 />
                             </div>
-                            <h3 className="text-xl font-bold text-foreground">Skoins</h3>
+                            <h3 className="text-xl font-bold">Skoins</h3>
                         </div>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm opacity-80">
                             Your trusted destination for premium coins, rare collectibles, and investment-grade precious metals.
                         </p>
                         <div className="flex gap-4">
@@ -26,7 +26,7 @@ export function Footer() {
                                 href="https://facebook.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-muted-foreground hover:text-primary transition"
+                                className="hover:opacity-70 transition"
                             >
                                 <Facebook className="w-5 h-5" />
                             </a>
@@ -34,7 +34,7 @@ export function Footer() {
                                 href="https://twitter.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-muted-foreground hover:text-primary transition"
+                                className="hover:opacity-70 transition"
                             >
                                 <Twitter className="w-5 h-5" />
                             </a>
@@ -42,42 +42,34 @@ export function Footer() {
                                 href="https://instagram.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-muted-foreground hover:text-primary transition"
+                                className="hover:opacity-70 transition"
                             >
                                 <Instagram className="w-5 h-5" />
-                            </a>
-                            <a
-                                href="https://linkedin.com"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-muted-foreground hover:text-primary transition"
-                            >
-                                <Linkedin className="w-5 h-5" />
                             </a>
                         </div>
                     </div>
 
                     {/* Quick Links */}
                     <div>
-                        <h3 className="font-semibold text-foreground mb-4">Quick Links</h3>
+                        <h3 className="font-semibold mb-4">Quick Links</h3>
                         <ul className="space-y-2 text-sm">
                             <li>
-                                <Link href="/shop" className="text-muted-foreground hover:text-primary transition">
+                                <Link href="/shop" className="hover:underline transition">
                                     Shop All Coins
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/about" className="text-muted-foreground hover:text-primary transition">
+                                <Link href="/auctions" className="hover:underline transition font-bold">
+                                    Active Auctions
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/about" className="hover:underline transition">
                                     About Us
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/faq" className="text-muted-foreground hover:text-primary transition">
-                                    FAQ
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/contact" className="text-muted-foreground hover:text-primary transition">
+                                <Link href="/contact" className="hover:underline transition">
                                     Contact Us
                                 </Link>
                             </li>
@@ -86,15 +78,15 @@ export function Footer() {
 
                     {/* Contact Info */}
                     <div>
-                        <h3 className="font-semibold text-foreground mb-4">Contact</h3>
+                        <h3 className="font-semibold mb-4">Contact</h3>
                         <ul className="space-y-3 text-sm">
-                            <li className="flex items-center gap-2 text-muted-foreground">
-                                <Phone className="w-4 h-4 text-primary" />
+                            <li className="flex items-center gap-2">
+                                <Phone className="w-4 h-4" />
                                 <span>+91-9876543210</span>
                             </li>
-                            <li className="flex items-center gap-2 text-muted-foreground">
-                                <Mail className="w-4 h-4 text-primary" />
-                                <a href="mailto:info@skoins.com" className="hover:text-primary transition">
+                            <li className="flex items-center gap-2">
+                                <Mail className="w-4 h-4" />
+                                <a href="mailto:info@skoins.com" className="hover:underline transition">
                                     info@skoins.com
                                 </a>
                             </li>
@@ -103,26 +95,21 @@ export function Footer() {
 
                     {/* Policies */}
                     <div>
-                        <h3 className="font-semibold text-foreground mb-4">Policies</h3>
+                        <h3 className="font-semibold mb-4">Policies</h3>
                         <ul className="space-y-2 text-sm">
                             <li>
-                                <Link href="/privacy" className="text-muted-foreground hover:text-primary transition">
+                                <Link href="/privacy" className="hover:underline transition">
                                     Privacy Policy
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/terms" className="text-muted-foreground hover:text-primary transition">
+                                <Link href="/terms" className="hover:underline transition">
                                     Terms of Service
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/refund" className="text-muted-foreground hover:text-primary transition">
+                                <Link href="/refund" className="hover:underline transition">
                                     Refund Policy
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/shipping" className="text-muted-foreground hover:text-primary transition">
-                                    Shipping Policy
                                 </Link>
                             </li>
                         </ul>
@@ -130,19 +117,19 @@ export function Footer() {
                 </div>
 
                 {/* Payment Methods */}
-                <div className="border-t border-border pt-6 mb-6">
-                    <p className="text-sm text-muted-foreground mb-2">We Accept</p>
-                    <div className="flex flex-wrap gap-3 text-sm text-foreground">
-                        <span className="px-3 py-1 bg-card border border-border rounded-md">PhonePe</span>
-                        <span className="px-3 py-1 bg-card border border-border rounded-md">Razorpay</span>
-                        <span className="px-3 py-1 bg-card border border-border rounded-md">PayPal</span>
-                        <span className="px-3 py-1 bg-card border border-border rounded-md">UPI</span>
+                <div className="border-t border-accent-foreground/20 pt-6 mb-6">
+                    <p className="text-sm font-medium mb-2">We Accept</p>
+                    <div className="flex flex-wrap gap-3 text-sm">
+                        <span className="px-3 py-1 bg-accent-foreground/10 rounded-md">PhonePe</span>
+                        <span className="px-3 py-1 bg-accent-foreground/10 rounded-md">Razorpay</span>
+                        <span className="px-3 py-1 bg-accent-foreground/10 rounded-md">PayPal</span>
+                        <span className="px-3 py-1 bg-accent-foreground/10 rounded-md">UPI</span>
                     </div>
                 </div>
 
                 {/* Copyright */}
-                <div className="border-t border-border pt-6 text-center">
-                    <p className="text-sm text-muted-foreground">
+                <div className="border-t border-accent-foreground/20 pt-6 text-center">
+                    <p className="text-sm opacity-80">
                         &copy; {new Date().getFullYear()} Skoins. All rights reserved.
                     </p>
                 </div>

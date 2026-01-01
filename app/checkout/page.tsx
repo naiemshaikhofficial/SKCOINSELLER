@@ -7,8 +7,8 @@ import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { createClient } from "@/lib/supabase-client"
-import { ArrowLeft, Loader2 } from "lucide-react"
-import { useRouter } from "next/navigation"
+import { ArrowLeft, Loader2, Coins as CoinIcon } from "lucide-react"
+import { useRouter, useSearchParams } from "next/navigation"
 import { Footer } from "@/components/footer"
 
 interface CartItem {
@@ -40,6 +40,11 @@ export default function CheckoutPage() {
   const [selectedAddressId, setSelectedAddressId] = useState("")
   const [addresses, setAddresses] = useState<any[]>([])
   const [showAddressForm, setShowAddressForm] = useState(false)
+  const [auctionInfo, setAuctionInfo] = useState<{ coin: any, price: number } | null>(null)
+
+  const searchParams = useSearchParams()
+  const auctionId = searchParams.get("auction_id")
+  const auctionPrice = Number(searchParams.get("price"))
 
   const [addressData, setAddressData] = useState<Address>({
     full_name: "",
@@ -67,27 +72,41 @@ export default function CheckoutPage() {
 
         setUser(authUser)
 
-        // Fetch cart items
-        const { data: cartData } = await supabase
-          .from("cart_items")
-          .select(
-            `
-          id,
-          coin_id,
-          quantity,
-          coin:coins(id, name, price)
-        `,
-          )
-          .eq("user_id", authUser.id)
+        if (auctionId) {
+          // Fetch specific coin for auction
+          const { data: auctionData } = await supabase
+            .from("auctions")
+            .select("*, coin:coins(*)")
+            .eq("id", auctionId)
+            .single()
 
-        setCartItems(cartData || [])
+          if (auctionData) {
+            setAuctionInfo({
+              coin: auctionData.coin,
+              price: auctionPrice || Number(auctionData.min_price)
+            })
+          }
+        } else {
+          // Normal case: Fetch cart items
+          const { data: cartData } = await supabase
+            .from("cart_items")
+            .select(
+              `
+            id,
+            coin_id,
+            quantity,
+            coin:coins(id, name, price)
+          `,
+            )
+            .eq("user_id", authUser.id)
+
+          setCartItems(cartData || [])
+        }
 
         // Fetch user addresses
         const { data: addressData } = await supabase.from("addresses").select("*").eq("user_id", authUser.id)
-
         setAddresses(addressData || [])
 
-        // Set first address as default
         if (addressData && addressData.length > 0) {
           setSelectedAddressId(addressData[0].id)
         }
@@ -148,7 +167,13 @@ export default function CheckoutPage() {
       const orderNumber = `ORDER-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`
 
       // Calculate totals
-      const subtotal = cartItems.reduce((sum, item) => sum + (item.coin?.price || 0) * item.quantity, 0)
+      let subtotal = 0
+      if (auctionInfo) {
+        subtotal = auctionInfo.price
+      } else {
+        subtotal = cartItems.reduce((sum, item) => sum + (item.coin?.price || 0) * item.quantity, 0)
+      }
+
       const shipping = 200
       const tax = subtotal * 0.18
       const totalAmount = subtotal + shipping + tax
@@ -176,12 +201,22 @@ export default function CheckoutPage() {
       const orderId = orderData[0].id
 
       // Add order items
-      const orderItems = cartItems.map((item) => ({
-        order_id: orderId,
-        coin_id: item.coin_id,
-        quantity: item.quantity,
-        price: item.coin?.price,
-      }))
+      let orderItems = []
+      if (auctionInfo) {
+        orderItems = [{
+          order_id: orderId,
+          coin_id: auctionInfo.coin.id,
+          quantity: 1,
+          price: auctionInfo.price,
+        }]
+      } else {
+        orderItems = cartItems.map((item) => ({
+          order_id: orderId,
+          coin_id: item.coin_id,
+          quantity: item.quantity,
+          price: item.coin?.price,
+        }))
+      }
 
       const { error: itemsError } = await supabase.from("order_items").insert(orderItems)
 
@@ -217,7 +252,9 @@ export default function CheckoutPage() {
     )
   }
 
-  const subtotal = cartItems.reduce((sum, item) => sum + (item.coin?.price || 0) * item.quantity, 0)
+  const subtotal = auctionInfo
+    ? auctionInfo.price
+    : cartItems.reduce((sum, item) => sum + (item.coin?.price || 0) * item.quantity, 0)
   const shipping = 200
   const tax = subtotal * 0.18
   const total = subtotal + shipping + tax
@@ -393,15 +430,28 @@ export default function CheckoutPage() {
               <h2 className="text-xl font-bold">Order Summary</h2>
 
               <div className="space-y-3 max-h-96 overflow-y-auto">
-                {cartItems.map((item) => (
-                  <div key={item.id} className="flex justify-between text-sm pb-2 border-b border-border">
-                    <div>
-                      <p className="font-medium">{item.coin?.name}</p>
-                      <p className="text-foreground/60">x{item.quantity}</p>
+                {auctionInfo ? (
+                  <div className="flex justify-between text-sm pb-2 border-b border-border">
+                    <div className="flex gap-2">
+                      <CoinIcon className="w-8 h-8 text-accent/20" />
+                      <div>
+                        <p className="font-medium">{auctionInfo.coin.name}</p>
+                        <p className="text-[10px] bg-accent/20 text-accent px-2 py-0.5 rounded-full inline-block">Auction Winner</p>
+                      </div>
                     </div>
-                    <p className="font-medium">₹{((item.coin?.price || 0) * item.quantity).toFixed(2)}</p>
+                    <p className="font-medium">₹{auctionInfo.price.toFixed(2)}</p>
                   </div>
-                ))}
+                ) : (
+                  cartItems.map((item) => (
+                    <div key={item.id} className="flex justify-between text-sm pb-2 border-b border-border">
+                      <div>
+                        <p className="font-medium">{item.coin?.name}</p>
+                        <p className="text-foreground/60">x{item.quantity}</p>
+                      </div>
+                      <p className="font-medium">₹{((item.coin?.price || 0) * item.quantity).toFixed(2)}</p>
+                    </div>
+                  ))
+                )}
               </div>
 
               <div className="space-y-2 pb-4 border-b border-border">
