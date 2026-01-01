@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card"
 import { createClient } from "@/lib/supabase-client"
 import { CoinsIcon as CoinIcon, ShoppingCart, ArrowLeft } from "lucide-react"
 import Link from "next/link"
+import { Footer } from "@/components/footer"
 
 export default function ProductPage() {
   const params = useParams()
@@ -177,6 +178,8 @@ export default function ProductPage() {
           </div>
         )}
       </div>
+
+      <Footer />
     </main>
   )
 }

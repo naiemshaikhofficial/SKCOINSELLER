@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { createClient } from "@/lib/supabase-client"
 import { Loader2, CheckCircle, AlertCircle } from "lucide-react"
+import { Footer } from "@/components/footer"
 
 export default function PayPalPaymentPage() {
   const searchParams = useSearchParams()
@@ -76,7 +77,8 @@ export default function PayPalPaymentPage() {
         <div className="flex items-center justify-center py-16">
           <Loader2 className="w-8 h-8 animate-spin text-primary" />
         </div>
-      </main>
+      <Footer />
+    </main>
     )
   }
 
@@ -216,6 +218,7 @@ export default function PayPalPaymentPage() {
           )}
         </Card>
       </div>
+      <Footer />
     </main>
   )
 }

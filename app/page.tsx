@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/card"
 import Link from "next/link"
 import { createClient } from "@/lib/supabase-client"
 import { Coins as Coin } from "lucide-react"
+import { Footer } from "@/components/footer"
 
 export default function Home() {
   const [coins, setCoins] = useState<any[]>([])
@@ -131,73 +132,20 @@ export default function Home() {
 
       {/* CTA Section */}
       <section className="py-16 px-4">
-        <div className="max-w-4xl mx-auto bg-gradient-to-r from-primary to-accent rounded-xl p-8 sm:p-12 text-center">
-          <h2 className="text-3xl font-bold text-primary-foreground mb-4">Start Your Collection Today</h2>
-          <p className="text-lg text-primary-foreground/90 mb-6">
-            Join thousands of collectors investing in premium coins
+        <div className="max-w-4xl mx-auto bg-gradient-to-r from-primary via-primary to-accent rounded-2xl p-8 sm:p-12 text-center shadow-2xl">
+          <h2 className="text-3xl sm:text-4xl font-bold text-primary-foreground mb-4">Start Your Collection Today</h2>
+          <p className="text-lg text-primary-foreground/95 mb-6">
+            Join thousands of collectors trusting Skoins for premium coins and collectibles
           </p>
           <Link href="/shop">
-            <Button size="lg" className="bg-secondary hover:bg-secondary/90 text-secondary-foreground">
-              Shop Now
+            <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold shadow-lg hover:shadow-xl transition-all">
+              Explore Collection
             </Button>
           </Link>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-secondary text-secondary-foreground py-12 px-4 mt-16">
-        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
-          <div>
-            <h3 className="font-semibold mb-4">Quick Links</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/shop" className="hover:underline">
-                  Shop
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="hover:underline">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link href="/faq" className="hover:underline">
-                  FAQ
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-4">Contact</h3>
-            <ul className="space-y-2 text-sm">
-              <li>📞 +91-9876543210</li>
-              <li>📧 info@skcoinseller.com</li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-4">Policies</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/privacy" className="hover:underline">
-                  Privacy
-                </Link>
-              </li>
-              <li>
-                <Link href="/terms" className="hover:underline">
-                  Terms
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-4">Payment Methods</h3>
-            <p className="text-sm">PhonePe • Razorpay • PayPal</p>
-          </div>
-        </div>
-        <div className="border-t border-secondary-foreground/20 pt-8 text-center text-sm">
-          <p>&copy; 2026 SK Coin Seller. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </main>
   )
 }

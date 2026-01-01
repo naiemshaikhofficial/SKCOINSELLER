@@ -8,6 +8,7 @@ import Link from "next/link"
 import { createClient } from "@/lib/supabase-client"
 import { Trash2, ArrowLeft, Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { Footer } from "@/components/footer"
 
 interface CartItemWithCoin {
   id: string
@@ -224,6 +225,8 @@ export default function CartPage() {
           </div>
         )}
       </div>
+
+      <Footer />
     </main>
   )
 }

@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input"
 import { createClient } from "@/lib/supabase-client"
 import { Plus, Edit2, Trash2, Loader2, MapPin } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { Footer } from "@/components/footer"
 
 interface Address {
   id: string
@@ -161,7 +162,8 @@ export default function AddressesPage() {
         <div className="flex items-center justify-center py-16">
           <Loader2 className="w-8 h-8 animate-spin text-primary" />
         </div>
-      </main>
+      <Footer />
+    </main>
     )
   }
 
@@ -340,6 +342,7 @@ export default function AddressesPage() {
           </div>
         )}
       </div>
+      <Footer />
     </main>
   )
 }

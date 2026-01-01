@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input"
 import { createClient } from "@/lib/supabase-client"
 import { User, Loader2, LogOut } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { Footer } from "@/components/footer"
 
 interface UserProfile {
   id: string
@@ -121,7 +122,8 @@ export default function ProfilePage() {
         <div className="flex items-center justify-center py-16">
           <Loader2 className="w-8 h-8 animate-spin text-primary" />
         </div>
-      </main>
+      <Footer />
+    </main>
     )
   }
 
@@ -212,6 +214,7 @@ export default function ProfilePage() {
           </Card>
         </div>
       </div>
+      <Footer />
     </main>
   )
 }

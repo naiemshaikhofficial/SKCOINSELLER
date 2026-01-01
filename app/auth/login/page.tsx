@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input"
 import { Header } from "@/components/header"
 import { createClient } from "@/lib/supabase-client"
 import { AlertCircle, Loader2 } from "lucide-react"
+import { Footer } from "@/components/footer"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
@@ -93,6 +94,8 @@ export default function LoginPage() {
           </div>
         </Card>
       </div>
+
+      <Footer />
     </main>
   )
 }

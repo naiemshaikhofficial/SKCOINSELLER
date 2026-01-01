@@ -8,6 +8,7 @@ import Link from "next/link"
 import { createClient } from "@/lib/supabase-client"
 import { Package, ChevronRight, Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { Footer } from "@/components/footer"
 
 interface Order {
   id: string
@@ -142,6 +143,8 @@ export default function OrdersPage() {
           </div>
         )}
       </div>
+
+      <Footer />
     </main>
   )
 }

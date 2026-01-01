@@ -8,6 +8,7 @@ import { createClient } from "@/lib/supabase-client"
 import { isAdmin } from "@/lib/admin-check"
 import { Loader2, Eye } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { Footer } from "@/components/footer"
 
 interface Order {
   id: string
@@ -114,7 +115,8 @@ export default function AdminOrdersPage() {
     return (
       <main className="min-h-screen bg-gradient-to-b from-background to-secondary/10 flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </main>
+      <Footer />
+    </main>
     )
   }
 
@@ -209,6 +211,7 @@ export default function AdminOrdersPage() {
           </Card>
         )}
       </div>
+      <Footer />
     </main>
   )
 }

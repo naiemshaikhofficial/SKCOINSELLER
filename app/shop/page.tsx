@@ -8,6 +8,7 @@ import Link from "next/link"
 import { createClient } from "@/lib/supabase-client"
 import { CoinsIcon as CoinIcon, ShoppingCart } from "lucide-react"
 import { Input } from "@/components/ui/input"
+import { Footer } from "@/components/footer"
 
 export default function ShopPage() {
   const [coins, setCoins] = useState<any[]>([])
@@ -157,6 +158,8 @@ export default function ShopPage() {
           </div>
         )}
       </div>
+
+      <Footer />
     </main>
   )
 }

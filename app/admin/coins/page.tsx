@@ -9,6 +9,7 @@ import { isAdmin } from "@/lib/admin-check"
 import { Plus, Edit2, Trash2, Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
+import { Footer } from "@/components/footer"
 
 export default function AdminCoinsPage() {
   const [coins, setCoins] = useState<any[]>([])
@@ -61,7 +62,8 @@ export default function AdminCoinsPage() {
     return (
       <main className="min-h-screen bg-gradient-to-b from-background to-secondary/10 flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </main>
+      <Footer />
+    </main>
     )
   }
 
@@ -153,6 +155,7 @@ export default function AdminCoinsPage() {
           </Card>
         )}
       </div>
+      <Footer />
     </main>
   )
 }

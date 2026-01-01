@@ -8,6 +8,7 @@ import Link from "next/link"
 import { createClient } from "@/lib/supabase-client"
 import { User, MapPin, ShoppingBag, LogOut } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { Footer } from "@/components/footer"
 
 export default function AccountPage() {
   const [user, setUser] = useState<any>(null)
@@ -152,6 +153,8 @@ export default function AccountPage() {
           </div>
         </Card>
       </div>
+
+      <Footer />
     </main>
   )
 }

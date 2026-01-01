@@ -12,6 +12,7 @@ import {
     ResponsiveContainer, Legend
 } from "recharts"
 import { format, subDays, startOfDay } from "date-fns"
+import { Footer } from "@/components/footer"
 
 export default function AdminDashboardPage() {
     const [stats, setStats] = useState({
@@ -102,6 +103,7 @@ export default function AdminDashboardPage() {
                 <div className="flex items-center justify-center py-16">
                     <Loader2 className="w-8 h-8 animate-spin text-primary" />
                 </div>
+                <Footer />
             </main>
         )
     }
@@ -213,9 +215,9 @@ export default function AdminDashboardPage() {
                                 <div className="text-right">
                                     <p className="font-medium">₹{order.total_amount.toFixed(2)}</p>
                                     <p className={`text-xs px-2 py-1 rounded-full ${order.order_status === 'delivered' ? 'bg-green-100 dark:bg-green-900/20 text-green-700' :
-                                            order.order_status === 'shipped' ? 'bg-purple-100 dark:bg-purple-900/20 text-purple-700' :
-                                                order.order_status === 'confirmed' ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-700' :
-                                                    'bg-yellow-100 dark:bg-yellow-900/20 text-yellow-700'
+                                        order.order_status === 'shipped' ? 'bg-purple-100 dark:bg-purple-900/20 text-purple-700' :
+                                            order.order_status === 'confirmed' ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-700' :
+                                                'bg-yellow-100 dark:bg-yellow-900/20 text-yellow-700'
                                         }`}>
                                         {order.order_status}
                                     </p>
@@ -225,6 +227,7 @@ export default function AdminDashboardPage() {
                     </div>
                 </Card>
             </div>
+            <Footer />
         </main>
     )
 }

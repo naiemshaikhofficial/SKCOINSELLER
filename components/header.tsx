@@ -62,17 +62,50 @@ export function Header({ cartCount = 0 }: HeaderProps) {
   const isAuthPage = pathname?.includes("/auth")
 
   return (
-    <header className="sticky top-0 z-50 bg-gradient-to-r from-primary to-accent border-b border-border shadow-md">
+    <header className="sticky top-0 z-50 bg-gradient-to-r from-primary via-primary to-accent/80 border-b border-border/50 shadow-lg backdrop-blur-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <div className="animate-coin w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
-              <span className="text-xl font-bold text-primary-foreground">₹</span>
+        <div className="flex items-center justify-between h-20">
+          {/* Logo container with "held" effect */}
+          <Link href="/" className="flex items-center gap-4 group relative z-10 perspective-1000">
+            <div className="relative pt-2">
+              {/* Structural holder (Pendant style) */}
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 bg-accent/20 rounded-full blur-sm" />
+              <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-1 h-4 bg-gradient-to-b from-accent to-accent/50 z-0" />
+
+              {/* Main Coin Housing */}
+              <div className="relative w-24 h-24 flex items-center justify-center rounded-full bg-gradient-to-br from-accent/20 via-accent/5 to-transparent border-[3px] border-accent/40 shadow-[0_0_30px_rgba(245,158,11,0.3),inset_0_0_20px_rgba(245,158,11,0.1)] backdrop-blur-md animate-float z-10 transition-transform duration-500 group-hover:scale-110">
+                {/* Inner Ring */}
+                <div className="absolute inset-2 rounded-full border border-accent/30 shadow-[inset_0_0_10px_rgba(245,158,11,0.2)]" />
+
+                {/* The Rotating Coin Container */}
+                <div className="relative w-16 h-16 animate-coin-flip preserve-3d">
+                  {/* Front Face */}
+                  <div className="absolute inset-0 backface-hidden">
+                    <img
+                      src="/skoins-logo.png"
+                      alt="Skoins Logo"
+                      className="w-full h-full object-contain drop-shadow-md"
+                    />
+                  </div>
+
+                  {/* Back Face (Duplicate for 3D effect) */}
+                  <div className="absolute inset-0 backface-hidden rotate-y-180">
+                    <img
+                      src="/skoins-logo.png"
+                      alt="Skoins Logo"
+                      className="w-full h-full object-contain drop-shadow-md"
+                    />
+                  </div>
+
+                  {/* Edge/Thickness Simulation */}
+                  <div className="absolute inset-0 rounded-full border-4 border-[#b45309] opacity-50" style={{ transform: 'translateZ(-1px)' }}></div>
+                </div>
+              </div>
             </div>
+
             <div className="hidden sm:block">
-              <h1 className="text-xl font-bold text-primary-foreground">SK Coin Seller</h1>
-              <p className="text-xs text-primary-foreground/80">Premium Coins & Collectibles</p>
+              <h1 className="text-2xl font-bold text-primary-foreground tracking-tight">Skoins</h1>
+              <p className="text-xs text-primary-foreground/90 font-medium">Premium Coins & Collectibles</p>
             </div>
           </Link>
 
@@ -166,36 +199,38 @@ export function Header({ cartCount = 0 }: HeaderProps) {
         </div>
 
         {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden pb-4 space-y-2 animate-slide-in">
-            <Link href="/">
-              <Button variant="ghost" className="w-full justify-start text-primary-foreground">
-                Home
-              </Button>
-            </Link>
-            <Link href="/shop">
-              <Button variant="ghost" className="w-full justify-start text-primary-foreground">
-                Shop
-              </Button>
-            </Link>
-            {user && (
-              <Link href="/orders">
+        {
+          isMenuOpen && (
+            <div className="md:hidden pb-4 space-y-2 animate-slide-in">
+              <Link href="/">
                 <Button variant="ghost" className="w-full justify-start text-primary-foreground">
-                  Orders
+                  Home
                 </Button>
               </Link>
-            )}
-            {isUserAdmin && (
-              <Link href="/admin/dashboard">
-                <Button variant="ghost" className="w-full justify-start text-primary-foreground flex items-center gap-2">
-                  <LayoutDashboard className="w-4 h-4" />
-                  Admin Dashboard
+              <Link href="/shop">
+                <Button variant="ghost" className="w-full justify-start text-primary-foreground">
+                  Shop
                 </Button>
               </Link>
-            )}
-          </div>
-        )}
-      </div>
-    </header>
+              {user && (
+                <Link href="/orders">
+                  <Button variant="ghost" className="w-full justify-start text-primary-foreground">
+                    Orders
+                  </Button>
+                </Link>
+              )}
+              {isUserAdmin && (
+                <Link href="/admin/dashboard">
+                  <Button variant="ghost" className="w-full justify-start text-primary-foreground flex items-center gap-2">
+                    <LayoutDashboard className="w-4 h-4" />
+                    Admin Dashboard
+                  </Button>
+                </Link>
+              )}
+            </div>
+          )
+        }
+      </div >
+    </header >
   )
 }

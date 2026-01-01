@@ -4,6 +4,7 @@ import { Header } from "@/components/header"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import Link from "next/link"
+import { Footer } from "@/components/footer"
 import { Mail, CheckCircle } from "lucide-react"
 
 export default function ConfirmEmailPage() {
@@ -38,6 +39,8 @@ export default function ConfirmEmailPage() {
           </Link>
         </Card>
       </div>
+
+      <Footer />
     </main>
   )
 }

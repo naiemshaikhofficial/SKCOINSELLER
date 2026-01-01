@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input"
 import { Header } from "@/components/header"
 import { createClient } from "@/lib/supabase-client"
 import { AlertCircle, Loader2 } from "lucide-react"
+import { Footer } from "@/components/footer"
 
 export default function SignupPage() {
   const [email, setEmail] = useState("")
@@ -67,7 +68,7 @@ export default function SignupPage() {
         <Card className="w-full max-w-md p-8 space-y-6">
           <div className="text-center space-y-2">
             <h1 className="text-2xl font-bold text-primary">Create Account</h1>
-            <p className="text-sm text-foreground/60">Join SK Coin Seller today</p>
+            <p className="text-sm text-foreground/60">Join Skoins today</p>
           </div>
 
           <form onSubmit={handleSignup} className="space-y-4">
@@ -128,6 +129,8 @@ export default function SignupPage() {
           </div>
         </Card>
       </div>
+
+      <Footer />
     </main>
   )
 }

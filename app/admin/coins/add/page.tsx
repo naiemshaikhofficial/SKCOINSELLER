@@ -14,6 +14,7 @@ import { isAdmin } from "@/lib/admin-check"
 import { ArrowLeft, Sparkles } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { Footer } from "@/components/footer"
 
 export default function AddCoinPage() {
   const [formData, setFormData] = useState({
@@ -88,7 +89,8 @@ export default function AddCoinPage() {
     return (
       <main className="min-h-screen bg-gradient-to-br from-yellow-50 via-white to-orange-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center">
         <CoinLoader size="lg" />
-      </main>
+      <Footer />
+    </main>
     )
   }
 
@@ -274,6 +276,7 @@ export default function AddCoinPage() {
           </form>
         </Card>
       </div>
+      <Footer />
     </main>
   )
 }
